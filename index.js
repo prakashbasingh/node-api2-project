@@ -1,5 +1,6 @@
 const express = require("express");
-const postsRouter = require("./posts/posts-router.js");
+const postsRouter = require("./routers/posts-router.js");
+const commentsRouter = require("./routers/comments-router.js")
 
 const server = express();
 
@@ -11,6 +12,7 @@ server.get("/", (req, res) => {
 
 
 server.use("/api/posts", postsRouter)
+server.use("/api/posts", commentsRouter)
 
 
 const PORT = 2222

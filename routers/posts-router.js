@@ -1,8 +1,10 @@
 const express = require("express");
 const DataBase = require("../data/db.js");
-const { Database } = require("sqlite3");
+// const { Database } = require("sqlite3");
 
 const router = express.Router();
+
+// *************  POST *************** //
 
 router.post("/", (req, res) => {
     DataBase.insert(req.body)
@@ -19,34 +21,8 @@ router.post("/", (req, res) => {
             })
 })
 
-router.post("/:id/comments", (req, res) => {
-    // const id = req.params.id;
-    // const text = req.body.text;
 
-    DataBase.findById(req.body.id)
-        .then(post => {
-            if(!post){
-                res.status(404).json({ message: "The post with the specified ID does not exist." })
-            }
-            DataBase.insertComment(req.body.text)
-                .then(comment => {
-                    if(!comment){
-                        res.status(400).json({ errorMessage: "Please provide text for the comment." })
-                    } else {
-                        res.status(201).json(comment)
-                    }
-                })
-                .catch(error => {
-                    console.log(error);
-                    res.status(500).json({ error: "There was an error while saving the comment to the database" })
-                })
-        })        
-        .catch(error => {
-            console.log(error);
-            res.status(500).json({ error: "There was an error while saving the comment to the database" })
-        })
-
-})
+// *************  GET *************** //
 
 router.get("/", (req, res) => {
     DataBase.find(req.query)
@@ -60,6 +36,7 @@ router.get("/", (req, res) => {
 })
 
 router.get("/:id", (req, res) => {
+
     DataBase.findById(req.params.id)
             .then(post => {
                 if(post){
@@ -74,20 +51,8 @@ router.get("/:id", (req, res) => {
             })
 })
 
-router.get("/:id/comments", (req, res) => {
-    DataBase.findCommentById(req.params.id)
-            .then(comment => {
-                if(comment){
-                    res.status(200).json(comment)
-                }else {
-                    res.status(404).json({ message: "The comment with the specified ID does not exist." })
-                }
-            })
-            .catch(error => {
-                console.log(error);
-                res.status(500).json({ error: "The comments information could not be retrieved." })
-            })
-})
+
+// *************  DELETE *************** //
 
 router.delete("/:id", (req, res) => {
     DataBase.remove(req.params.id)
@@ -105,19 +70,24 @@ router.delete("/:id", (req, res) => {
 
 })
 
+// *************  PUT *************** //
+
 router.put("/:id", (req, res) => {
+    const { id } = req.params;
     const changes = req.body
-    DataBase.update(req.params.id, changes)
-        .then(post => {
+    DataBase.update(id, changes)
+        .then(count => {
+            console.log(count, "kaiojbhdiaohgaihsdiauhesdaiuh")
             if(!changes.title || !changes.contents){
                 res.status(400).json({ errorMessage: "Please provide title and contents for the post." })
-            } else if (!post) {
+            } else if (!count) {
                 res.status(404).json({ message: "The post with the specified ID does not exist." })
             } else {
-                res.status(200).json(post)
+                res.status(200).json(count)
             }
         })
         .catch(error => {
+            console.log(error);
             res.status(500).json({ error: "The post information could not be modified."  })
         })
 })
