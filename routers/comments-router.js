@@ -19,6 +19,33 @@ router.post("/:id/comments", (req, res) => {
     //         console.log(err.comments)
     //         res.status(404).json({message: "The post with the specified ID does not exist."})
     //     })
+
+    // const postId = req.body.post_id
+    // console.log(postId, "PostID PostId PostID")
+
+    // const id = req.params.id;
+    // console.log(id, "ID ID ID ID ID ID ID")
+    // console.log(req.param, "PPPPPPPPPPPPP")
+
+    // if(id){
+    //     DataBase.insertComment(req.params.id)
+    //         .then(count => {
+    //             if(count){
+    //                 res.status(201).json(count) 
+    //             }else{
+    //                 res.status(400).json({ errorMessage: "Please provide text for the comment." })
+    //             }
+    //         })
+    //         .catch(error => {
+    //             console.log(error);
+    //             res.status(500).json({ error: "There was an error while saving the comment to the database" })
+    //         })
+
+    // } else {
+    //     res.status(404).json({ message: "The post with the specified ID does not exist." })
+    // }
+    
+        
   
     const id = req.params.id;
     // const text = req.body.text;
